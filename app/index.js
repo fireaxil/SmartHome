@@ -5,6 +5,10 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
 import deepPurple from 'material-ui/colors/deepPurple'
 import red from 'material-ui/colors/red'
 import MainPage from './components/main/MainPage'
+import {createStore, applyMiddleware} from 'redux'
+import rootReducer from './reducers/index'
+import {Provider} from 'react-redux'
+import thunk from 'redux-thunk'
 
 const theme = createMuiTheme({
   palette: {
@@ -16,11 +20,15 @@ const theme = createMuiTheme({
 
 console.log(theme)
 
+const store = createStore(rootReducer, applyMiddleware(thunk))
+
 function App () {
   return [
     <CssBaseline key='cssBaseline' />,
     <MuiThemeProvider theme={theme} key='themeProvider'>
-      <MainPage />
+      <Provider store={store}>
+        <MainPage />
+      </Provider>
     </MuiThemeProvider>
   ]
 }
